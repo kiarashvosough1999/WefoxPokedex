@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-@main
-struct WefoxPokedexApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+//@main
+//struct WefoxPokedexApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}
