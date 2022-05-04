@@ -30,6 +30,7 @@ extension AppEnvironment {
         // Configuring Services
         let services = configuredServices(pokemonSearchRepository: networkRepositories.pokemonSearchRepository,
                                           pokemonSearchPersistentRepository: persistentRepositories.pokemonSearchPersistentRepository,
+                                          pokemonImageRepository: networkRepositories.pokemonImageRepository,
                                           appState: appState)
         
         // Configuring DIContainer
@@ -58,15 +59,21 @@ extension AppEnvironment {
         let pokemonSearchRepository = PokemonSearchRepositoryImpl(session: session,
                                                                   baseURL: "https://pokeapi.co/api")
         
-        return DIContainer.WebRepositories(pokemonSearchRepository: pokemonSearchRepository)
+        let pokemonImageRepository = PokemonImageRepositoryImpl(session: session,
+                                                                baseURL: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon")
+        
+        return DIContainer.WebRepositories(pokemonSearchRepository: pokemonSearchRepository,
+                                           pokemonImageRepository: pokemonImageRepository)
     }
     
     private static func configuredServices(pokemonSearchRepository: PokemonSearchRepository,
                                            pokemonSearchPersistentRepository: PokemonSearchPersistentRepository,
+                                           pokemonImageRepository: PokemonImageRepository,
                                            appState: Store<AppState>) -> DIContainer.Services {
         
         let pokemonSerachServices = PokemonSerachServicesImpl(pokemonSearchRepository: pokemonSearchRepository,
                                                               pokemonSearchPersistentRepository: pokemonSearchPersistentRepository,
+                                                              pokemonImageRepository: pokemonImageRepository,
                                                               appState: appState)
         
         return DIContainer.Services(pokemonSerachServices: pokemonSerachServices)

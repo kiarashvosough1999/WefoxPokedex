@@ -8,9 +8,11 @@
 extension DIContainer {
     struct WebRepositories {
         let pokemonSearchRepository: PokemonSearchRepository
+        let pokemonImageRepository: PokemonImageRepository
         
-        init(pokemonSearchRepository: PokemonSearchRepository) {
+        init(pokemonSearchRepository: PokemonSearchRepository, pokemonImageRepository: PokemonImageRepository) {
             self.pokemonSearchRepository = pokemonSearchRepository
+            self.pokemonImageRepository = pokemonImageRepository
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 protocol PokemonSerachServices {
     func getRandomPokemon() -> AnyPublisher<PokemonSearchResult,Error>
@@ -16,6 +17,7 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
     
     private let pokemonSearchRepository: PokemonSearchRepository
     private let pokemonSearchPersistentRepository: PokemonSearchPersistentRepository
+    private let pokemonImageRepository: PokemonImageRepository
     private let appState: Store<AppState>
     
     var randomPokemonNumber: Int {
@@ -24,9 +26,11 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
     
     init(pokemonSearchRepository: PokemonSearchRepository,
          pokemonSearchPersistentRepository: PokemonSearchPersistentRepository,
+         pokemonImageRepository: PokemonImageRepository,
          appState: Store<AppState>) {
         self.pokemonSearchRepository = pokemonSearchRepository
         self.pokemonSearchPersistentRepository = pokemonSearchPersistentRepository
+        self.pokemonImageRepository = pokemonImageRepository
         self.appState = appState
     }
     
@@ -47,9 +51,20 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
     }
     
     func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool,Error> {
-        return pokemonSearchPersistentRepository
-            .savePokemon(model: model)
-            .eraseToAnyPublisher()
+        if let imageName = URL(string: model.frontDefault)?.lastPathComponent {
+            return pokemonImageRepository
+                .getPokemonImageData(imageName: imageName)
+                .replaceError(with: Data())
+                .flatMap { imageData in
+                    self.pokemonSearchPersistentRepository
+                        .savePokemon(model: model, imageData: imageData)
+                }
+                .eraseToAnyPublisher()
+        } else {
+            return pokemonSearchPersistentRepository
+                .savePokemon(model: model, imageData: Data())
+                .eraseToAnyPublisher()
+        }
     }
 }
 
