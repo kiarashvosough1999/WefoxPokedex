@@ -18,6 +18,10 @@ struct PokemonSearchModel: Equatable, Castable {
     let types: [String]
     let weight: Int32
     
+    var imageURL: URL? {
+        URL(string: frontDefault)
+    }
+    
     init(baseExperience: Int32,
          height: Int32,
          id: Int32,
@@ -62,4 +66,13 @@ struct PokemonSearchModel: Equatable, Castable {
 enum PokemonSearchResult {
     case new(model: PokemonSearchModel)
     case alreadyPicked(model: PokemonSearchModel)
+    
+    var model: PokemonSearchModel {
+        switch self {
+        case .new(let model):
+            return model
+        case .alreadyPicked(let model):
+            return model
+        }
+    }
 }
