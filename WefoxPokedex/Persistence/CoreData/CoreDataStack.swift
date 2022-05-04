@@ -59,7 +59,7 @@ struct CoreDataStack: CoreDataPersistentStore {
 
 extension CoreDataStack {
 
-    func insert<T>(_ object: T) -> AnyPublisher<T, PersistentError> where T: NSManagedObject {
+    func insert<T>(_ object: T.Type, mutator: @escaping ObjectMutator<T>) -> AnyPublisher<T, PersistentError> where T: NSManagedObject {
         Deferred {
             Future { promise in
                 self.currentMainContext.perform { safeContext in
@@ -71,6 +71,7 @@ extension CoreDataStack {
 
                     do {
                         let managedObject = T(context: context)
+                        mutator(managedObject)
                         try context.save()
                         promise(.success(managedObject))
                     } catch {

@@ -9,6 +9,9 @@ import Combine
 import CoreData
 
 protocol CoreDataPersistentStore: PersistentStore {
-    func insert<T>(_ object: T) -> AnyPublisher<T, PersistentError> where T: NSManagedObject
+    
+    typealias ObjectMutator<T: AnyObject> = (T) -> Void
+    
+    func insert<T>(_ object: T.Type, mutator: @escaping ObjectMutator<T>) -> AnyPublisher<T, PersistentError> where T: NSManagedObject
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, PersistentError> where T : NSFetchRequestResult
 }
