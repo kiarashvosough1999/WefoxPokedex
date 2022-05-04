@@ -21,11 +21,21 @@ extension Publisher {
     }
     
     func extractUnderlyingError() -> Publishers.MapError<Self, Failure> {
-        mapError {
-            ($0.underlyingError as? Failure) ?? $0
+        mapError { error in
+            (error.underlyingError as? Failure) ?? error
         }
     }
 
+    func sinkToLoadable(_ completion: @escaping (Loadable<Output>) -> Void) -> AnyCancellable {
+        return sink { subscriptionCompletion in
+            if let error = subscriptionCompletion.error {
+                completion(.failed(error))
+            }
+        } receiveValue: { value in
+            completion(.loaded(value))
+        }
+    }
+    
     func ensureTimeSpan(_ interval: TimeInterval) -> AnyPublisher<Output, Failure> {
         let timer = Just<Void>(())
             .delay(for: .seconds(interval), scheduler: RunLoop.main)
@@ -51,6 +61,15 @@ extension Publisher where Failure == Never {
     func weakAssign<T: AnyObject>(to keyPath: ReferenceWritableKeyPath<T, Output>, on object: T) -> AnyCancellable {
         sink { [weak object] value in
             object?[keyPath: keyPath] = value
+        }
+    }
+}
+
+extension Subscribers.Completion {
+    var error: Failure? {
+        switch self {
+        case let .failure(error): return error
+        default: return nil
         }
     }
 }

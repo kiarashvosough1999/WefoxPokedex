@@ -9,6 +9,7 @@ import Combine
 
 protocol PokemonSerachServices {
     func getRandomPokemon() -> AnyPublisher<PokemonSearchResult,Error>
+    func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool,Error>
 }
 
 struct PokemonSerachServicesImpl: PokemonSerachServices {
@@ -30,7 +31,8 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
     }
     
     func getRandomPokemon() -> AnyPublisher<PokemonSearchResult,Error> {
-        return pokemonSearchRepository.getRandomPokemon(randomNumber: randomPokemonNumber)
+        return pokemonSearchRepository
+            .getRandomPokemon(randomNumber: randomPokemonNumber)
             .flatMap { searchModel in
                 self.pokemonSearchPersistentRepository.pokemonExist(with: searchModel.id)
                     .combineLatest(
@@ -43,10 +45,20 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
             }
             .eraseToAnyPublisher()
     }
+    
+    func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool,Error> {
+        return pokemonSearchPersistentRepository
+            .savePokemon(model: model)
+            .eraseToAnyPublisher()
+    }
 }
 
 struct PokemonSerachServicesSTUB: PokemonSerachServices {
     
+    func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool, Error> {
+        Empty<Bool,Error>().eraseToAnyPublisher()
+    }
+
     func getRandomPokemon() -> AnyPublisher<PokemonSearchResult,Error> { Empty<PokemonSearchResult,Error>().eraseToAnyPublisher()
     }
 }
