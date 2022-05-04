@@ -15,7 +15,7 @@ protocol NetworkRepository {
 }
 
 extension NetworkRepository {
-    func call<Value>(endpoint: APICall, httpCodes: HTTPStatusCodes = .success) -> AnyPublisher<Value, Error>
+    func request<Value>(endpoint: NetworkAPIRequest, httpCodes: HTTPStatusCodes = .success) -> AnyPublisher<Value, Error>
         where Value: Decodable {
         do {
             let request = try endpoint.urlRequest(baseURL: baseURL)
@@ -24,6 +24,17 @@ extension NetworkRepository {
                 .requestJSON(httpCodes: httpCodes)
         } catch let error {
             return Fail<Value, Error>(error: error).eraseToAnyPublisher()
+        }
+    }
+    
+    func requestDownloadImage(endpoint: NetworkAPIRequest, httpCodes: HTTPStatusCodes = .success)  -> AnyPublisher<Data, Error> {
+        do {
+            let request = try endpoint.urlRequest(baseURL: baseURL)
+            return session
+                .dataTaskPublisher(for: request)
+                .downloadImage(httpCodes: httpCodes)
+        } catch let error {
+            return Fail<Data, Error>(error: error).eraseToAnyPublisher()
         }
     }
 }
@@ -46,5 +57,26 @@ private extension Publisher where Output == URLSession.DataTaskPublisher.Output 
             .decode(type: Value.self, decoder: JSONDecoder())
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
+    }
+    
+    func downloadImage(httpCodes: HTTPStatusCodes) -> AnyPublisher<Data, Error> {
+        tryMap { (data, response) in
+            assert(!Thread.isMainThread)
+            let httpResponse = response as? HTTPURLResponse
+            
+            guard let code = httpResponse?.statusCode else {
+                throw APIError.unexpectedResponse
+            }
+            guard httpCodes.contains(code) else {
+                throw APIError.httpCode(code)
+            }
+            guard let mimeType = httpResponse?.mimeType, mimeType.hasPrefix("image") else {
+                throw APIError.imageDownloadingError
+            }
+            return data
+        }
+        .extractUnderlyingError()
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
     }
 }
