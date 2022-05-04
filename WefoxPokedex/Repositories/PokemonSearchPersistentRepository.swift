@@ -10,7 +10,7 @@ import CoreData
 
 protocol PokemonSearchPersistentRepository: Repository {
     func pokemonExist(with id: Int32) -> AnyPublisher<Bool, Error>
-    func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool, Error>
+    func savePokemon(model: PokemonSearchModel, imageData: Data) -> AnyPublisher<Bool, Error>
 }
 
 struct PokemonSearchPersistentRepositoryImpl: PokemonSearchPersistentRepository {
@@ -34,8 +34,9 @@ struct PokemonSearchPersistentRepositoryImpl: PokemonSearchPersistentRepository 
             .eraseToAnyPublisher()
     }
     
-    func savePokemon(model: PokemonSearchModel) -> AnyPublisher<Bool, Error> {
-        persistentStore.insert(Pokemon.self) { object in
+    func savePokemon(model: PokemonSearchModel, imageData: Data) -> AnyPublisher<Bool, Error> {
+        persistentStore.insert(Pokemon.self) { [imageData] object in
+            object.imageData = imageData
             object.apiId = model.id
             object.baseExperience = model.baseExperience
             object.height = model.height
