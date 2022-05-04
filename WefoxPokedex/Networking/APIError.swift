@@ -11,5 +11,5 @@ enum APIError: Swift.Error {
     case invalidURL
     case httpCode(HTTPStatusCode)
     case unexpectedResponse
-    case imageProcessing([URLRequest])
+    case imageDownloadingError
 }
