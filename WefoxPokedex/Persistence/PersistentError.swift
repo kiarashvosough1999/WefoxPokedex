@@ -12,7 +12,6 @@ import Foundation
 
 enum PersistentError: Error {
     
-    case selfFoundNil
     case coreDataError(reason: CoreDataError)
     
     enum CoreDataError: Error {
