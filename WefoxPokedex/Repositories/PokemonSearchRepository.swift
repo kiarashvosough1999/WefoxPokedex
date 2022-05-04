@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 protocol PokemonSearchRepository: NetworkRepository {
-    func getRandomPokemon(randomNumber: Int) -> AnyPublisher<[PokemonAPISearchModel], Error>
+    func getRandomPokemon(randomNumber: Int) -> AnyPublisher<PokemonAPISearchModel, Error>
 }
 
 struct PokemonSearchRepositoryImpl: PokemonSearchRepository {
@@ -25,7 +25,7 @@ struct PokemonSearchRepositoryImpl: PokemonSearchRepository {
         self.baseURL = baseURL
     }
     
-    func getRandomPokemon(randomNumber: Int) -> AnyPublisher<[PokemonAPISearchModel], Error> {
+    func getRandomPokemon(randomNumber: Int) -> AnyPublisher<PokemonAPISearchModel, Error> {
         request(endpoint: API.random(number: randomNumber))
     }
 }
@@ -46,7 +46,7 @@ extension PokemonSearchRepositoryImpl.API: NetworkAPIRequest {
     
     var path: String {
         switch self {
-        case let .random(number): return "/\(number)"
+        case let .random(number): return "/pokemon/\(number)"
         }
     }
     

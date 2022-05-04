@@ -8,7 +8,7 @@
 import CoreData
 import Combine
 
-struct CoreDataStack: PersistentStore {
+struct CoreDataStack: CoreDataPersistentStore {
     
     private let container: NSPersistentContainer
     private let isStoreLoaded = CurrentValueSubject<Bool, Error>(false)
@@ -37,11 +37,75 @@ struct CoreDataStack: PersistentStore {
         }
     }
     
+    // I did not impelement background context as it may required more time to implement and handle the changes
+    // the whole project use main context, although it is not the rigth way
+    var currentMainContext: NSManagedObjectContext {
+        container.viewContext.automaticallyMergesChangesFromParent = false
+        container.viewContext.undoManager = nil
+        container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
+        return container.viewContext
+    }
+    
     private var onStoreIsReady: AnyPublisher<Void, Error> {
         return isStoreLoaded
             .filter { $0 }
             .map { _ in }
             .eraseToAnyPublisher()
+    }
+    
+}
+
+// MARK: - Insert
+
+extension CoreDataStack {
+
+    func insert<T>(_ object: T) -> AnyPublisher<T, PersistentError> where T: NSManagedObject {
+        Deferred {
+            Future { promise in
+                self.currentMainContext.perform { safeContext in
+                    
+                    guard let context = try? safeContext.get() else {
+                        promise(.failure(.coreDataError(reason: .ContextDealocated)))
+                        return
+                    }
+
+                    do {
+                        let managedObject = T(context: context)
+                        try context.save()
+                        promise(.success(managedObject))
+                    } catch {
+                        promise(.failure(.coreDataError(reason: .CannotSave)))
+                    }
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Count
+
+extension CoreDataStack {
+
+    func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, PersistentError> where T : NSFetchRequestResult {
+        Deferred {
+            Future<Int,PersistentError> { promise in
+                
+                self.currentMainContext.perform { safeContext in
+                    guard let context = try? safeContext.get() else {
+                        promise(.failure(.coreDataError(reason: .ContextDealocated)))
+                        return
+                    }
+                    
+                    do {
+                        let count = try context.count(for: fetchRequest)
+                        promise(.success(count))
+                    } catch {
+                        promise(.failure(.coreDataError(reason: .canNotFetchCount)))
+                    }
+                }
+            }
+        }
+        .eraseToAnyPublisher()
     }
 }
 
