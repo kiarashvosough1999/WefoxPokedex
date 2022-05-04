@@ -29,7 +29,7 @@ final class SceneManager {
 
     fileprivate func generateConfig(from identifier: SceneIdentifier) -> UISceneConfiguration {
         let config = UISceneConfiguration()
-        config.sceneClass = identifier.delegateClass
+        config.sceneClass = identifier.sceneClass
         config.delegateClass = identifier.delegateClass
         config.storyboard = identifier.storyboard
         return config

@@ -10,10 +10,14 @@ import Foundation
 extension DIContainer {
     struct Services {
         
-        init() {}
+        var pokemonSerachServices: PokemonSerachServices
+        
+        init(pokemonSerachServices: PokemonSerachServices) {
+            self.pokemonSerachServices = pokemonSerachServices
+        }
         
         static var stub: Self {
-            Services()
+            Services(pokemonSerachServices: PokemonSerachServicesSTUB())
         }
     }
 }
