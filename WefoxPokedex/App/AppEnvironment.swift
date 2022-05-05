@@ -5,7 +5,25 @@
 //  Created by Kiarash Vosough on 5/3/22.
 //
 
-import Foundation
+#if os(iOS)
+import UIKit
+
+extension UIResponder {
+    var appEnviroment: AppEnvironment? {
+        (UIApplication.shared as? Application)?.appEnvironment
+    }
+}
+#endif
+
+#if os(macOS)
+import AppKit
+
+extension NSResponder {
+    var appEnviroment: AppEnvironment? {
+        (UIApplication.shared as? Application)?.appEnvironment
+    }
+}
+#endif
 
 protocol AppEnvironmentContainer {
     var appEnvironment: AppEnvironment { get }
