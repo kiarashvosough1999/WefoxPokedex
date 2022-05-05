@@ -63,7 +63,7 @@ struct PokemonSearchModel: Equatable, Castable {
     }
 }
 
-enum PokemonSearchResult {
+enum PokemonSearchResult: Equatable {
     case new(model: PokemonSearchModel)
     case alreadyPicked(model: PokemonSearchModel)
     
