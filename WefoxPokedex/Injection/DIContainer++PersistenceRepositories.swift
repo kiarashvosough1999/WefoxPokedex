@@ -8,9 +8,12 @@
 extension DIContainer {
     struct DBRepositories {
         let pokemonSearchPersistentRepository: PokemonSearchPersistentRepository
+        let pokemonBagListRepository: PokemonBagListRepository
         
-        init(pokemonSearchPersistentRepository: PokemonSearchPersistentRepository) {
+        init(pokemonSearchPersistentRepository: PokemonSearchPersistentRepository,
+             pokemonBagListRepository: PokemonBagListRepository) {
             self.pokemonSearchPersistentRepository = pokemonSearchPersistentRepository
+            self.pokemonBagListRepository = pokemonBagListRepository
         }
     }
 }

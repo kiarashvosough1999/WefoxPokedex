@@ -31,6 +31,7 @@ extension AppEnvironment {
         let services = configuredServices(pokemonSearchRepository: networkRepositories.pokemonSearchRepository,
                                           pokemonSearchPersistentRepository: persistentRepositories.pokemonSearchPersistentRepository,
                                           pokemonImageRepository: networkRepositories.pokemonImageRepository,
+                                          pokemonBagListRepository: persistentRepositories.pokemonBagListRepository,
                                           appState: appState)
         
         // Configuring DIContainer
@@ -69,6 +70,7 @@ extension AppEnvironment {
     private static func configuredServices(pokemonSearchRepository: PokemonSearchRepository,
                                            pokemonSearchPersistentRepository: PokemonSearchPersistentRepository,
                                            pokemonImageRepository: PokemonImageRepository,
+                                           pokemonBagListRepository: PokemonBagListRepository,
                                            appState: Store<AppState>) -> DIContainer.Services {
         
         let pokemonSerachServices = PokemonSerachServicesImpl(pokemonSearchRepository: pokemonSearchRepository,
@@ -76,12 +78,18 @@ extension AppEnvironment {
                                                               pokemonImageRepository: pokemonImageRepository,
                                                               appState: appState)
         
-        return DIContainer.Services(pokemonSerachServices: pokemonSerachServices)
+        let pokemonesBagListService = PokemoneBagListServiceImpl(pokemonBagListRepository: pokemonBagListRepository,
+                                                                 appState: appState)
+        
+        return DIContainer.Services(pokemonSerachServices: pokemonSerachServices,
+                                    pokemonesBagListService: pokemonesBagListService)
     }
     
     private static func configuredPersistentRepositories(appState: Store<AppState>) -> DIContainer.DBRepositories {
         let persistentStore = CoreDataStack(version: CoreDataStack.Version.actual)
         let pokemonSearchPersistentRepository = PokemonSearchPersistentRepositoryImpl(persistentStore: persistentStore)
-        return DIContainer.DBRepositories(pokemonSearchPersistentRepository: pokemonSearchPersistentRepository)
+        let pokemonBagListRepository = PokemonBagListRepositoryImpl(persistentStore: persistentStore)
+        return DIContainer.DBRepositories(pokemonSearchPersistentRepository: pokemonSearchPersistentRepository,
+                                          pokemonBagListRepository: pokemonBagListRepository)
     }
 }

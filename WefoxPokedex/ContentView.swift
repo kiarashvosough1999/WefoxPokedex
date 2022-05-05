@@ -11,12 +11,9 @@ struct ContentView: View {
     
     @ObservedObject private(set) var viewModel: ViewModel
     
-    @State var dsd: Bool = true
-    
     var body: some View {
         Group {
-            SearchPokemon(viewModel: SearchPokemon.ViewModel(container: viewModel.container,
-                                                             isDisplayed: $dsd))
+            PokemonBagListView(viewModel: PokemonBagListView.ViewModel(container: viewModel.container))
         }
         .background(Color.white)
     }

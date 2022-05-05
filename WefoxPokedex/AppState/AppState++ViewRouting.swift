@@ -8,5 +8,7 @@
 import Foundation
 
 extension AppState {
-    struct ViewRouting: Equatable {}
+    struct ViewRouting: Equatable {
+        var pokemonesBagList = PokemonBagListView.Routing()
+    }
 }

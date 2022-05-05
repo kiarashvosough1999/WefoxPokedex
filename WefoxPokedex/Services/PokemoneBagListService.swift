@@ -13,10 +13,15 @@ protocol PokemoneBagListService {
 }
 
 struct PokemoneBagListServiceImpl: PokemoneBagListService {
-    
+
     private let pokemonBagListRepository: PokemonBagListRepository
     private let appState: Store<AppState>
     
+    init(pokemonBagListRepository: PokemonBagListRepository, appState: Store<AppState>) {
+        self.pokemonBagListRepository = pokemonBagListRepository
+        self.appState = appState
+    }
+
     func observePokemonesBag() -> AnyPublisher<[PokemonBagListModel],Error> {
         pokemonBagListRepository
             .objectPublisherForPokemonBag(sortedBy: \.order, ascending: true)
