@@ -13,6 +13,7 @@ import Combine
 extension PokemonBagListView {
     struct Routing: Equatable {
         var pokemoneTakeSheet: Bool = false
+        var pokemonDetailPage: Int32?
     }
 }
 

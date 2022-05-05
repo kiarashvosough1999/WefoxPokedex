@@ -19,7 +19,13 @@ struct PokemonBagListView: View {
     var body: some View {
         NavigationView {
             List(viewModel.pokemones.value ?? []) { item in
-                PoekemonesItemView(imageData: item.imageData, name: item.name)
+                NavigationLink(tag: item.id, selection: $viewModel.routingState.pokemonDetailPage) {
+                    PokemonDetailView(viewModel: PokemonDetailView
+                        .ViewModel(container: viewModel.container, pokemoneId: item.id)
+                    )
+                } label: {
+                    PoekemonesItemView(imageData: item.imageData, name: item.name)
+                }
             }
             .navigationBarHidden(false)
             .navigationTitle("Pokemones Bag")
