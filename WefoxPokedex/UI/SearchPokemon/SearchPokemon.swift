@@ -68,8 +68,8 @@ struct SearchPokemon: View {
             }
             HStack(alignment: .bottom, spacing: 10) {
                 Spacer()
-                FancyButton(title: "Take", isDisabled: isTakeButtonDisabled, action: viewModel.takePokemon)
-                FancyButton(title: "Throw Away", isDisabled: isTakeButtonDisabled,action: viewModel.dismiss)
+                FancyButton(title: "Catch", isDisabled: isTakeButtonDisabled, action: viewModel.takePokemon)
+                FancyButton(title: "Throw Away",action: viewModel.dismiss)
                 Spacer()
             }
         }
