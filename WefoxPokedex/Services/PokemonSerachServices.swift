@@ -44,7 +44,7 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
                             .setFailureType(to: Error.self)
                     ).eraseToAnyPublisher()
             }
-            .map { (isPokemonAlreadySaved, searchModel) -> PokemonSearchResult in
+            .map { isPokemonAlreadySaved, searchModel -> PokemonSearchResult in
                 return isPokemonAlreadySaved ? .alreadyPicked(model: searchModel) : .new(model: searchModel)
             }
             .eraseToAnyPublisher()
@@ -54,7 +54,6 @@ struct PokemonSerachServicesImpl: PokemonSerachServices {
         if let imageName = URL(string: model.frontDefault)?.lastPathComponent {
             return pokemonImageRepository
                 .getPokemonImageData(imageName: imageName)
-                .replaceError(with: Data())
                 .flatMap { imageData in
                     self.pokemonSearchPersistentRepository
                         .savePokemon(model: model, imageData: imageData)
