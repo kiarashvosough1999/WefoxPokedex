@@ -123,6 +123,36 @@ extension CoreDataStack {
     }
 }
 
+// MARK: - Fetch
+
+extension CoreDataStack {
+
+    func fetchOne<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<T, PersistentError> where T : NSFetchRequestResult {
+        precondition(fetchRequest.fetchLimit == 1, "Fetch Limit Must be Equal To 1")
+        return Deferred {
+            Future<T,PersistentError> { promise in
+                
+                self.currentMainContext.perform { safeContext in
+                    guard let context = try? safeContext.get() else {
+                        promise(.failure(.coreDataError(reason: .ContextDealocated)))
+                        return
+                    }
+                    do {
+                        guard let fetchedObject = try context.fetch(fetchRequest).first else {
+                            promise(.failure(.coreDataError(reason: .objectNotFound)))
+                            return
+                        }
+                        promise(.success(fetchedObject))
+                    } catch {
+                        promise(.failure(.coreDataError(reason: .canNotFetchCount)))
+                    }
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+}
+
 // MARK: - Versioning
 
 extension CoreDataStack.Version {

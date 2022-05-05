@@ -17,4 +17,6 @@ protocol CoreDataPersistentStore: PersistentStore {
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, PersistentError> where T : NSFetchRequestResult
     
     func objectPublisher<T>(fetchRequest: NSFetchRequest<T>) -> AnyPublisher<[T],Error> where T : NSFetchRequestResult
+    
+    func fetchOne<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<T, PersistentError> where T : NSFetchRequestResult
 }
