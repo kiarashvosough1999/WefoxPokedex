@@ -110,6 +110,19 @@ extension CoreDataStack {
     }
 }
 
+// MARK: - Object Puvlisher
+
+extension CoreDataStack {
+    
+    func objectPublisher<T>(fetchRequest: NSFetchRequest<T>) -> AnyPublisher<[T], Error> where T : NSFetchRequestResult {
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: self.currentMainContext,
+                                             sectionNameKeyPath: .none,
+                                             cacheName: .none)
+        return CDPublisher(fetchResultController: frc).eraseToAnyPublisher()
+    }
+}
+
 // MARK: - Versioning
 
 extension CoreDataStack.Version {

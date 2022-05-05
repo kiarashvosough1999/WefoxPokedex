@@ -13,5 +13,8 @@ protocol CoreDataPersistentStore: PersistentStore {
     typealias ObjectMutator<T: AnyObject> = (T) -> Void
     
     func insert<T>(_ object: T.Type, mutator: @escaping ObjectMutator<T>) -> AnyPublisher<T, PersistentError> where T: NSManagedObject
+
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, PersistentError> where T : NSFetchRequestResult
+    
+    func objectPublisher<T>(fetchRequest: NSFetchRequest<T>) -> AnyPublisher<[T],Error> where T : NSFetchRequestResult
 }
