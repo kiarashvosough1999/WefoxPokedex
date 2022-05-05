@@ -13,7 +13,6 @@ struct PokemoneDetailModel: Equatable, Identifiable {
     let height: Int32
     let id: Int32
     let name: String
-    let order: Int32
     let imageData: Data
     let types: String
     let weight: Int32
@@ -22,7 +21,6 @@ struct PokemoneDetailModel: Equatable, Identifiable {
          height: Int32,
          id: Int32,
          name: String,
-         order: Int32,
          imageData: Data,
          types: String,
          weight: Int32) {
@@ -30,7 +28,6 @@ struct PokemoneDetailModel: Equatable, Identifiable {
         self.height = height
         self.id = id
         self.name = name
-        self.order = order
         self.imageData = imageData
         self.types = types
         self.weight = weight

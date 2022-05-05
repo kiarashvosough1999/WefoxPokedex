@@ -18,10 +18,8 @@ struct SearchPokemon: View {
     
     private var content: AnyView {
         switch viewModel.searchState {
-        case .notRequested:
-            return AnyView(notRequestedView)
-        case .isLoading:
-            return AnyView(loadingView)
+        case .notRequested: return AnyView(notRequestedView)
+        case .isLoading: return AnyView(loadingView)
         case .failed(let error): return AnyView(failedView(error))
         case .loaded(let searchResult):
             switch searchResult {
@@ -32,21 +30,13 @@ struct SearchPokemon: View {
     }
     
     private var loadingView: some View {
-        VStack {
-            ActivityIndicatorView()
-            Button {
-                self.viewModel.searchState.cancelLoading()
-            } label: {
-                Text("Cancel loading")
-            }
+        LoadingView {
+            self.viewModel.searchState.cancelLoading()
         }
     }
     
     private var notRequestedView: some View {
-        Text("We Are Working On It")
-            .bold()
-            .font(.title)
-            .foregroundColor(.purple)
+        NotRequestedView()
             .onAppear {
                 viewModel.loadRandomPokemon()
             }
@@ -68,8 +58,8 @@ struct SearchPokemon: View {
             }
             HStack(alignment: .bottom, spacing: 10) {
                 Spacer()
-                FancyButton(title: "Take", isDisabled: isTakeButtonDisabled, action: viewModel.takePokemon)
-                FancyButton(title: "Throw Away", isDisabled: isTakeButtonDisabled,action: viewModel.dismiss)
+                FancyButton(title: "Catch", isDisabled: isTakeButtonDisabled, action: viewModel.takePokemon)
+                FancyButton(title: "Throw Away",action: viewModel.dismiss)
                 Spacer()
             }
         }

@@ -40,7 +40,6 @@ fileprivate extension PokemoneDetailModel {
         self.height = persistenceObject.height
         self.id = persistenceObject.apiId
         self.name = persistenceObject.name.or("")
-        self.order = persistenceObject.order
         self.imageData = persistenceObject.imageData.or(Data())
         self.types = persistenceObject.types.or("")
         self.weight = persistenceObject.weight
