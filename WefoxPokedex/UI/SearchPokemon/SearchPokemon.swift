@@ -18,10 +18,8 @@ struct SearchPokemon: View {
     
     private var content: AnyView {
         switch viewModel.searchState {
-        case .notRequested:
-            return AnyView(notRequestedView)
-        case .isLoading:
-            return AnyView(loadingView)
+        case .notRequested: return AnyView(notRequestedView)
+        case .isLoading: return AnyView(loadingView)
         case .failed(let error): return AnyView(failedView(error))
         case .loaded(let searchResult):
             switch searchResult {
@@ -32,21 +30,13 @@ struct SearchPokemon: View {
     }
     
     private var loadingView: some View {
-        VStack {
-            ActivityIndicatorView()
-            Button {
-                self.viewModel.searchState.cancelLoading()
-            } label: {
-                Text("Cancel loading")
-            }
+        LoadingView {
+            self.viewModel.searchState.cancelLoading()
         }
     }
     
     private var notRequestedView: some View {
-        Text("We Are Working On It")
-            .bold()
-            .font(.title)
-            .foregroundColor(.purple)
+        NotRequestedView()
             .onAppear {
                 viewModel.loadRandomPokemon()
             }
