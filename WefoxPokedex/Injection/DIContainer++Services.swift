@@ -11,13 +11,17 @@ extension DIContainer {
     struct Services {
         
         var pokemonSerachServices: PokemonSerachServices
+        var pokemonesBagListService: PokemoneBagListService
         
-        init(pokemonSerachServices: PokemonSerachServices) {
+        init(pokemonSerachServices: PokemonSerachServices,
+             pokemonesBagListService: PokemoneBagListService) {
             self.pokemonSerachServices = pokemonSerachServices
+            self.pokemonesBagListService = pokemonesBagListService
         }
         
         static var stub: Self {
-            Services(pokemonSerachServices: PokemonSerachServicesSTUB())
+            Services(pokemonSerachServices: PokemonSerachServicesSTUB(),
+                     pokemonesBagListService: PokemoneBagListServiceSTUB())
         }
     }
 }

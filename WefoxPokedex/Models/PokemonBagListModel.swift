@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PokemonBagListModel: Equatable {
+struct PokemonBagListModel: Equatable, Identifiable {
 
     let baseExperience: Int32
     let height: Int32
