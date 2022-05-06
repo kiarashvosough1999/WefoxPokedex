@@ -30,7 +30,7 @@ struct DIContainer: EnvironmentKey {
 #if DEBUG
 extension DIContainer {
     static var preview: Self {
-        .init(appState: AppState.preview, services: .stub)
+        .init(appState: .preview, services: .stub)
     }
 }
 #endif

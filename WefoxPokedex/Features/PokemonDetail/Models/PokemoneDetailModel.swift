@@ -16,6 +16,7 @@ struct PokemoneDetailModel: Equatable, Identifiable {
     let imageData: Data
     let types: String
     let weight: Int32
+    let catchedDate: Date
     
     init(baseExperience: Int32,
          height: Int32,
@@ -23,7 +24,8 @@ struct PokemoneDetailModel: Equatable, Identifiable {
          name: String,
          imageData: Data,
          types: String,
-         weight: Int32) {
+         weight: Int32,
+         catchedDate: Date) {
         self.baseExperience = baseExperience
         self.height = height
         self.id = id
@@ -31,5 +33,6 @@ struct PokemoneDetailModel: Equatable, Identifiable {
         self.imageData = imageData
         self.types = types
         self.weight = weight
+        self.catchedDate = catchedDate
     }
 }

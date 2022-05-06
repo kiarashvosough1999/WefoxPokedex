@@ -50,6 +50,7 @@ struct PokemonSearchPersistentRepositoryImpl: PokemonSearchPersistentRepository 
 fileprivate extension Pokemon {
     func from(from apiModel: PokemonSearchModel, imageData: Data) {
         self.imageData = imageData
+        self.dateCatched = apiModel.catchedDate.or(Date())
         self.apiId = apiModel.id
         self.baseExperience = apiModel.baseExperience
         self.height = apiModel.height
