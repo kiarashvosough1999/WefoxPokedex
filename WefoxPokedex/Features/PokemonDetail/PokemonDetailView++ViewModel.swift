@@ -17,9 +17,9 @@ extension PokemonDetailView {
         let container: DIContainer
         private var cancelables = Cancelables()
         
-        init(container: DIContainer, pokemoneId: Int32) {
+        init(container: DIContainer, pokemoneId: Int32, pokemoneDetail: Loadable<PokemoneDetailModel> = .notRequested) {
             self.container = container
-            self.pokemoneDetail = .notRequested
+            self.pokemoneDetail = pokemoneDetail
             self.pokemoneId = pokemoneId
         }
 

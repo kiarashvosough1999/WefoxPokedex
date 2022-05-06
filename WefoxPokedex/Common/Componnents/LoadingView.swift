@@ -10,6 +10,7 @@ import SwiftUI
 struct LoadingView: View {
 
     private var cancelLoadingAction: (() -> Void)?
+    let inspection = Inspection<Self>()
     
     init(cancelLoadingAction: (() -> Void)? = nil) {
         self.cancelLoadingAction = cancelLoadingAction
@@ -26,6 +27,7 @@ struct LoadingView: View {
                 }
             }
         }
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
 }
 

@@ -36,6 +36,7 @@ struct PokemoneDetailRepositoryImpl: PokemoneDetailRepository {
 
 fileprivate extension PokemoneDetailModel {
     init(from persistenceObject: Pokemon) {
+        self.catchedDate = persistenceObject.dateCatched.or(Date())
         self.baseExperience = persistenceObject.baseExperience
         self.height = persistenceObject.height
         self.id = persistenceObject.apiId

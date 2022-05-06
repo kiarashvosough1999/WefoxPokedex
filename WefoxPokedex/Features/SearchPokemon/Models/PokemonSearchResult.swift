@@ -17,6 +17,7 @@ struct PokemonSearchModel: Equatable {
     let frontDefault: String
     let types: [String]
     let weight: Int32
+    var catchedDate: Date?
     
     var imageURL: URL? {
         URL(string: frontDefault)

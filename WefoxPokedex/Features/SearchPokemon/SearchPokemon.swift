@@ -10,10 +10,12 @@ import SwiftUI
 struct SearchPokemon: View {
     
     @ObservedObject private(set) var viewModel: ViewModel
+    let inspection = Inspection<Self>()
     
     var body: some View {
         content
             .ignoresSafeArea([.container], edges: .top)
+            .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     private var content: AnyView {

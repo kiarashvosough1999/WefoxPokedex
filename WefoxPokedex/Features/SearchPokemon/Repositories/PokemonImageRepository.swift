@@ -31,7 +31,7 @@ struct PokemonImageRepositoryImpl: PokemonImageRepository {
 }
 
 extension PokemonImageRepositoryImpl {
-    fileprivate enum API {
+    enum API {
         case image(imageName: String)
     }
 }

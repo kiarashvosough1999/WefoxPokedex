@@ -10,6 +10,7 @@ import SwiftUI
 struct PokemonBagListView: View {
     
     @ObservedObject private(set) var viewModel: ViewModel
+    let inspection = Inspection<Self>()
     
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -33,11 +34,11 @@ struct PokemonBagListView: View {
             .floatingButton(color: .indigo, image: Image(systemName: "plus")) {
                 viewModel.showPokemoneSearch()
             }
-            
             .sheet(isPresented: self.$viewModel.routingState.pokemoneTakeSheet) {
                 searchPokemoneView()
             }
         }
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     private func searchPokemoneView() -> some View {

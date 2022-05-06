@@ -18,6 +18,8 @@ struct FancyButton: View {
     
     private let isDisabled: Bool
     
+    let inspection = Inspection<Self>()
+    
     init(title: String, isDisabled: Bool = false, action: @escaping (() -> Void)) {
         self.action = action
         self.title = title
@@ -38,6 +40,7 @@ struct FancyButton: View {
         .cornerRadius(10)
         .disabled(isDisabled)
         .opacity(isDisabled ? 0.5 : 1)
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
 }
 

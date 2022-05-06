@@ -3,6 +3,7 @@
     <entity name="Pokemon" representedClassName="Pokemon" syncable="YES" codeGenerationType="class">
         <attribute name="apiId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="baseExperience" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="dateCatched" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="frontDefault" attributeType="String"/>
         <attribute name="height" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imageData" attributeType="Binary"/>
@@ -12,6 +13,6 @@
         <attribute name="weight" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Pokemon" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="Pokemon" positionX="-63" positionY="-18" width="128" height="179"/>
     </elements>
 </model>

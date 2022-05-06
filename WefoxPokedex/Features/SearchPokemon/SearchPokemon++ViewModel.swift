@@ -11,15 +11,15 @@ import SwiftUI
 
 extension SearchPokemon {
     class ViewModel: ObservableObject {
-        
+
         // State
         @Binding private var isDisplayed: Bool
         @Published var searchState: Loadable<PokemonSearchResult>
-        
+
         // Misc
         let container: DIContainer
         private var cancelables = Cancelables()
-        
+
         init(container: DIContainer,
              isDisplayed: Binding<Bool>,
              searchState: Loadable<PokemonSearchResult> = .notRequested) {
@@ -42,7 +42,8 @@ extension SearchPokemon {
         }
         
         func takePokemon() {
-            guard let pokemonModel = self.searchState.value?.model else { return }
+            guard var pokemonModel = self.searchState.value?.model else { return }
+            pokemonModel.catchedDate = Date()
             searchState.setIsLoading(cancelBag: cancelables)
             container
                 .services
