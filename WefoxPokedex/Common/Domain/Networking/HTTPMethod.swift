@@ -8,7 +8,8 @@
 import Foundation
 
 enum HTTPMethod: String, Equatable {
-    case get = "Get"
+    case get = "GET"
+    case post = "POST"
     
     var name: String { rawValue }
 }
