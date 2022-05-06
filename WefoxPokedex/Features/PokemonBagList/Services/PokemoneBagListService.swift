@@ -24,7 +24,7 @@ struct PokemoneBagListServiceImpl: PokemoneBagListService {
 
     func observePokemonesBag() -> AnyPublisher<[PokemonBagListModel],Error> {
         pokemonBagListRepository
-            .objectPublisherForPokemonBag(sortedBy: \.order, ascending: true)
+            .objectPublisherForPokemonBag(sortedBy: "order", ascending: true)
             .eraseToAnyPublisher()
     }
 }

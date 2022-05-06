@@ -9,7 +9,7 @@ import Combine
 import CoreData
 
 protocol PokemonBagListRepository: Repository {
-    func objectPublisherForPokemonBag<T>(sortedBy keyPath: KeyPath<Pokemon,T>, ascending: Bool) -> AnyPublisher<[PokemonBagListModel],Error>
+    func objectPublisherForPokemonBag(sortedBy keyPath: String, ascending: Bool) -> AnyPublisher<[PokemonBagListModel],Error>
 }
 
 struct PokemonBagListRepositoryImpl: PokemonBagListRepository {
@@ -20,10 +20,10 @@ struct PokemonBagListRepositoryImpl: PokemonBagListRepository {
         self.persistentStore = persistentStore
     }
 
-    func objectPublisherForPokemonBag<T>(sortedBy keyPath: KeyPath<Pokemon,T>, ascending: Bool) -> AnyPublisher<[PokemonBagListModel],Error> {
+    func objectPublisherForPokemonBag(sortedBy keyPath: String, ascending: Bool) -> AnyPublisher<[PokemonBagListModel],Error> {
         let fetchRequest = Pokemon.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(keyPath: keyPath, ascending: ascending)
+            NSSortDescriptor(key: keyPath, ascending: ascending)
         ]
         return persistentStore
             .objectPublisher(fetchRequest: fetchRequest)
