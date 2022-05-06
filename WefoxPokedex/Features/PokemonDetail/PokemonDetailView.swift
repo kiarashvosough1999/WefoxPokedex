@@ -10,9 +10,11 @@ import SwiftUI
 struct PokemonDetailView: View {
     
     @ObservedObject private(set) var viewModel: ViewModel
+    let inspection = Inspection<Self>()
     
     var body: some View {
         content
+            .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     private var content: AnyView {
@@ -58,6 +60,7 @@ struct PokemonDetailView: View {
                 KeyValueTextRow(keyText: "Height", valueText: model.height.formatted())
                 KeyValueTextRow(keyText: "Types", valueText: model.types)
                 KeyValueTextRow(keyText: "Base Experience", valueText: model.baseExperience.formatted())
+                KeyValueTextRow(keyText: "CatchedDate", valueText: model.catchedDate.formatted())
             }
         }
     }

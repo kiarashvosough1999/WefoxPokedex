@@ -11,6 +11,7 @@ struct ErrorView: View {
     
     private let error: Error
     private let retryAction: () -> Void
+    let inspection = Inspection<Self>()
     
     init(error: Error, retryAction: @escaping () -> Void) {
         self.error = error
@@ -29,6 +30,7 @@ struct ErrorView: View {
                 Text("Retry").bold()
             }
         }
+        .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
 }
 
