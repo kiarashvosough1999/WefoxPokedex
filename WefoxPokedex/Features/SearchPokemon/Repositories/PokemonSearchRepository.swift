@@ -42,7 +42,7 @@ struct PokemonSearchRepositoryImpl: PokemonSearchRepository {
 }
 
 extension PokemonSearchRepositoryImpl {
-    fileprivate enum API {
+    enum API {
         case random(number: Int)
     }
 }
