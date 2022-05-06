@@ -2,7 +2,7 @@
 
 [![Swift](https://img.shields.io/badge/Coverage-75_percent-green?style=flat-square)](https://img.shields.io/badge/Swift-5.1_5.2_5.3_5.4-Orange?style=flat-square)
 [![Swift](https://img.shields.io/badge/Swift-5.5_or_Higher-orange?style=flat-square)](https://img.shields.io/badge/Swift-5.1_5.2_5.3_5.4-Orange?style=flat-square)
-[![Platforms](https://img.shields.io/badge/Platforms-iOS_13.0_or_Higher-yellowgreen?style=flat-square)](https://img.shields.io/badge/Platforms-macOS_iOS_tvOS_watchOS_Linux_Windows-Green?style=flat-square)
+[![Platforms](https://img.shields.io/badge/Platforms-iOS_15.0_or_Higher-yellowgreen?style=flat-square)](https://img.shields.io/badge/Platforms-macOS_iOS_tvOS_watchOS_Linux_Windows-Green?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS-lightgrey)
 
 This sample application was designed for the process of WeFox incorporation's interview for IOS Developer position. 
@@ -16,7 +16,7 @@ so every APIs and extensions .. was written by myself.
 
 | Platform | Minimum Swift Version | Status |
 | --- | --- | --- |
-| iOS 13.0+ | 5.5 | Tested |
+| iOS 15.0+ | 5.5 | Tested |
 
 ## Current Features
 
