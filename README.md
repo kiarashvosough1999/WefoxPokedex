@@ -24,7 +24,7 @@ so every APIs and extensions .. was written by myself.
 - Self-Implemented Test And Mocking Helpers
 - Self-Implemented Network Stack
 - Used **SwiftUI**
-- Used **`MVVM`** + **`State`** Architecture Pattern
+- Used **`MVVM`** + **`Redux`** Architecture Pattern
 - Several Scene Support
 - Reactive binding and Services with **`Combine`**
 - Modularized
